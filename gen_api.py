@@ -56,32 +56,6 @@ def summarise():
         )
 
         text_summary = response1.text
-
-        # Generate the infographics using Gemini's native image model thingy
-        response2 = client.models.generate_content(
-            model='gemini-2.5-flash-image',
-            contents=f'Make 3 separate concise infographic cards with striking stats on these topics: 1. {top_tech.title}, 2. {top_world[0].title}, 3. {top_world[1].title}',
-            config=types.GenerateContentConfig(
-                response_modalities=["IMAGE"],
-                image_config=types.ImageConfig(
-                    aspect_ratio="9:16"
-                )
-            )
-        )
-
-        # Extract and save images from response parts
-        image_counter = 1
-        for candidate in response2.candidates:
-            for part in candidate.content.parts:
-                if part.inline_data:
-                    time.sleep(4)
-                    # Use part.as_image() helper provided by google-genai
-                    img = part.as_image()
-                    file_name = f'generated_image{image_counter}.png'
-                    img.save(file_name)
-                    print(f'Saved image as "{file_name}".')
-                    image_counter += 1
-
         return text_summary
 
         
