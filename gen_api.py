@@ -5,6 +5,7 @@ import time
 from newspaper import Article
 from googlenewsdecoder import gnewsdecoder
 
+
 def extract(raw_url):
     try:
         decoded = gnewsdecoder(raw_url)
@@ -20,7 +21,7 @@ def extract(raw_url):
         return 'Content Unavailable'
 
 
-def summarise():
+def summarise() -> str:
     # Finds and Collects relevant news
     gn = GoogleNews(lang='en', country='SG')
 
@@ -44,7 +45,10 @@ def summarise():
             model='gemini-3.5-flash-lite',
             contents=f"""Summarise these 3 article, 2 short paragraphs each, with the important statistics
             being listed at the end of each article summary. Do not use complex formatting - only use
-            that can be represented in plain text. The following are the titles and contents to the articles:
+            that can be represented in plain text. Each article summary should be separated by 2 newlines (2 empty newlines inbetween).
+            Start each summary with its title and article number (1, 2 or 3).
+            The following are the titles and contents to the articles:
+
             Article 1 - {top_tech.title}:
             {all_text[0]}
             
@@ -55,13 +59,16 @@ def summarise():
             {all_text[2]}"""
         )
 
-        text_summary = response1.text
-        return text_summary
+        text_summary = str(response1.text)
+
+        final = "------- NEWS OF THE DAY -------\n\n" + text_summary
+        return final
 
         
 
 if __name__ == '__main__':
-    time.sleep(60)
     summary = summarise()
     print("------- SUMMARY OUTPUT -------")
     print(summary)
+
+    
