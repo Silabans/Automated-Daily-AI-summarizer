@@ -4,7 +4,10 @@ from pygooglenews import GoogleNews
 import time
 from newspaper import Article
 from googlenewsdecoder import gnewsdecoder
+from dotenv import load_dotenv
 
+
+load_dotenv() # Load the stored env variable
 
 def extract(raw_url):
     try:
