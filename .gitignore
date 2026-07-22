@@ -1,0 +1,12 @@
+# Ignore environment variables containing secrets
+.env
+
+# Ignore virtual environments
+virtual/
+venv/
+.venv/
+
+# Ignore Python bytecode and logs
+__pycache__/
+*.log
+task_log.txt
